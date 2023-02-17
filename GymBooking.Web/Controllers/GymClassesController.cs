@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GymBooking.Web.Data;
 using GymBooking.Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace GymBooking.Web.Controllers
 {
     public class GymClassesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public GymClassesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager= userManager;
         }
 
         // GET: GymClasses
@@ -25,6 +27,21 @@ namespace GymBooking.Web.Controllers
               return _context.GymClass != null ? 
                           View(await _context.GymClass.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
+        }
+
+        public async Task<IActionResult> BookingToogle(int? id)
+        {
+            if (id == null) 
+            return NotFound();
+            var thisClass = await _context.GymClass.FindAsync(id);
+            var userId = _userManager.GetUserId(User);            // nu ska vi hitta medlemmen 
+
+            if (thisClass.AttendingMembers.Any(e => e.ApplicationUserId == userId))
+            {
+              
+                //true: vi avbokar här!
+            }
+
         }
 
         // GET: GymClasses/Details/5
