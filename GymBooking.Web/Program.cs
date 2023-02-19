@@ -3,6 +3,8 @@ using GymBooking.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace GymBooking.Web
 {
     public class Program
@@ -16,6 +18,9 @@ namespace GymBooking.Web
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+         
+
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
@@ -45,7 +50,7 @@ namespace GymBooking.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=GymClasses}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

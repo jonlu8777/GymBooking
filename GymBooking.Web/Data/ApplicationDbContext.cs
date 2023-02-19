@@ -17,5 +17,8 @@ namespace GymBooking.Web.Data
             modelBuilder.Entity<ApplicationUserGymClass>().HasKey(t => new { t.ApplicationUserId, t.GymClassId });
         }
         public DbSet<GymBooking.Web.Models.GymClass> GymClass { get; set; } = default!;
+        public DbSet<GymBooking.Web.Models.ApplicationUserGymClass> ApplicationUserGymClass{ get; set; } = default!;
+        //public DbSet<GymBooking.Web.Models.ApplicationUser> ApplicationUser { get; set; } = default!;
+
     }
 }

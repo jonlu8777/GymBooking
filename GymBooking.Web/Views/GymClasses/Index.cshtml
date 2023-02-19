@@ -4,7 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
+
+@if(TempData["success"]!=null)
+{
+    <script src="~/lib/jquery/dist/jquery.js"> </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"> </script>
+    <script type="text/javascript">
+        toastr.success('@TempData["success"]');
+    </script>
+    @*<h2>@TempData["success"]</h2>*@
+
+}
+
 <h1>Index</h1>
+
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -24,7 +38,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th></th>
+           
         </tr>
     </thead>
     <tbody>
@@ -42,10 +56,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+               
+           
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>|
+                    <a asp-action="BookingToggle" asp-route-id="@item.Id">Book</a>
             </td>
         </tr>
 }
