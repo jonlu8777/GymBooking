@@ -39,56 +39,40 @@ namespace GymBooking.Web.Controllers
            // var userId = User.Identity.Name;
             var userId = _userManager.GetUserId(User);  // nu ska vi hitta medlemmen 
             if (userId == null) return NotFound();
-            var thisClass = await _context.ApplicationUserGymClass.FindAsync(userId, id); //17:07
+            var attendClass = await _context.ApplicationUserGymClass.FindAsync(userId, id); //17:07
 
             //var thisClass = await _context.GymClass.FindAsync(id); //classID
 
-            if (thisClass != null) //vi ska avboka om true
+            if (attendClass != null) //vi ska avboka om true
             {
             TempData["success"] = "Avbokad";
-                _context.ApplicationUserGymClass.Remove(thisClass);
+                _context.ApplicationUserGymClass.Remove(attendClass);
             }
                 else
                 {
                 //false: vi behöver göra en bokning! 
                 int id2 = (int)id;
                 var thisUser = await _userManager.GetUserAsync(User);
+                var thisClass = await _context.GymClass.FindAsync(id);
                 var booking = new ApplicationUserGymClass()
+                
                    {
                     GymClassId = id2,
-                    ApplicationUserId = userId
+                    ApplicationUserId = userId,     //okklart om nedan behövs....
+                    ApplicationUser= thisUser,
+                    GymClass= thisClass
                    };
 
                 _context.ApplicationUserGymClass.Add(booking);
+
                 TempData["success"] = "Bokad";
             }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             
-            //}
+         
         }
-//        var attending = await _context.AppUserGymClass.FindAsync(userId, id);
 
-//            if(attending == null)
-//            {
-//                var booking = new ApplicationUserGymClass
-//                {
-//                    ApplicationUserId = userId,
-//                    GymClassId = (int)id
-//                };
-
-//        _context.AppUserGymClass.Add(booking);
-//            }
-//            else
-//            {
-//                _context.AppUserGymClass.Remove(attending);
-//            }
-
-//await _context.SaveChangesAsync();
-
-//return RedirectToAction("Index");
-           
-//        }
 
 // GET: GymClasses/Details/5
 public async Task<IActionResult> Details(int? id)
@@ -98,7 +82,10 @@ public async Task<IActionResult> Details(int? id)
                 return NotFound();
             }
 
-            var gymClass = await _context.GymClass
+            //var gymClass = await _context.GymClass
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var gymClass = await _context.GymClass.Include(x => x.AttendingMembers)
+                .ThenInclude(x => x.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gymClass == null)
             {
