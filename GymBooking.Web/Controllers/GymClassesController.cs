@@ -9,6 +9,7 @@ using GymBooking.Web.Data;
 using GymBooking.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using NuGet.Versioning;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GymBooking.Web.Controllers
 {
@@ -30,7 +31,7 @@ namespace GymBooking.Web.Controllers
                           View(await _context.GymClass.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
-
+        [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id == null)
@@ -74,8 +75,9 @@ namespace GymBooking.Web.Controllers
         }
 
 
-// GET: GymClasses/Details/5
-public async Task<IActionResult> Details(int? id)
+        // GET: GymClasses/Details/5
+        [Authorize]
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.GymClass == null)
             {
@@ -86,7 +88,8 @@ public async Task<IActionResult> Details(int? id)
             //    .FirstOrDefaultAsync(m => m.Id == id);
             var gymClass = await _context.GymClass.Include(x => x.AttendingMembers)
                 .ThenInclude(x => x.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id); //Dessa rader är GULD!   =D  Går från GymClass till AppUserGymClass, sen till AppUser
+
             if (gymClass == null)
             {
                 return NotFound();
@@ -96,6 +99,7 @@ public async Task<IActionResult> Details(int? id)
         }
 
         // GET: GymClasses/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -118,6 +122,7 @@ public async Task<IActionResult> Details(int? id)
         }
 
         // GET: GymClasses/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.GymClass == null)
@@ -169,6 +174,7 @@ public async Task<IActionResult> Details(int? id)
         }
 
         // GET: GymClasses/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.GymClass == null)

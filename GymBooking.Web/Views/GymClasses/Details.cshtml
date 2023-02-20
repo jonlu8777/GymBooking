@@ -37,16 +37,17 @@
         @if(Model.AttendingMembers!=null)
         @foreach (var item in Model.AttendingMembers.ToList())
         {
-            <div>@item.ApplicationUser.Email</div>
+            @*<div>@item.ApplicationUser.Email</div>*@
+              @*  @Html.DisplayFor(modelItem => item.ApplicationUser.Email)*@
 
-        @*<dt class="col-sm-2">
+        <dt class="col-sm-2">
                     @Html.DisplayNameFor(modelItem =>item.ApplicationUser.Email)
         </dt>
         <dd class="col-sm-10">
           
 
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-        </dd>*@
+        </dd>
         }
       
     </dl>
