@@ -9,7 +9,7 @@ namespace GymBooking.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,29 @@ namespace GymBooking.Web
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            //     await app.SeedDataAsync(); //seedDataAsync för addera en Admin med lösenord
+
+            // test nedan 
+            
+            using (var scope = app.Services.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
+            
+                try
+                {
+                   UserRoleInit.InitAsync(serviceProvider).Wait();
+                }
+                catch (Exception e)
+                {
+                    var logger =serviceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e, message: e.ToString());
+                    throw;
+                }
+            }
+
+
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

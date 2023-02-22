@@ -8,5 +8,7 @@ namespace GymBooking.Web.Models
         public ICollection<ApplicationUserGymClass>? AttendedClasses { get; set; } 
 
 
+
+
     }
 }
