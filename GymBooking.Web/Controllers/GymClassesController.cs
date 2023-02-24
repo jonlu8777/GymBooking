@@ -10,6 +10,7 @@ using GymBooking.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using NuGet.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using GymBooking.Web.Areas.Identity.Pages.Account;
 
 namespace GymBooking.Web.Controllers
 {
@@ -31,6 +32,43 @@ namespace GymBooking.Web.Controllers
                           View(await _context.GymClass.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
+
+        //[HttpPost]
+      //public async Task<IActionResult> RegisterUser([Bind("Id,Email,FirstName,LastName,Password")] ApplicationUser registerModel)
+      //  public async Task<IActionResult> RegisterUser(int id)
+      //public async Task<IActionResult> RegisterUser([Bind("Id,Email,FirstName,LastName,Password,ConfimPassword")] RegisterModel.InputModel registerModel)
+      //  {
+
+         
+
+
+
+
+      //      //if (ModelState.IsValid)
+      //      //{
+      //      //    registerModel.Input.TimeOfRegistration = DateTime.Now;
+
+      //      //var appUser = new ApplicationUser()
+      //      //{
+      //      //    FirstName = registerModel.Input.FirstName,
+      //      //    LastName = registerModel.Input.LastName,
+      //      //    Email = registerModel.Input.Email,
+      //      //    PasswordHash = registerModel.Input.ConfirmPassword,
+      //      //    TimeOfRegistration = DateTime.Now
+      //      //};
+      //      ////ID kan strula?! 
+
+      //      //    _context.Add(registerModel);
+      //      //    _context.ApplicationUser.Add(appUser);
+      //      //    await _context.SaveChangesAsync();
+      //      //    return RedirectToAction(nameof(Index));
+      //      //}
+      //      //return Problem("registration error");
+      //  }
+
+
+
+
         [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {

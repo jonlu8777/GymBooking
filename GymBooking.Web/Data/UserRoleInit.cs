@@ -32,7 +32,11 @@ namespace GymBooking.Web.Data
                 ApplicationUser user = new()
                 {
                     Email = email,
-                    UserName = email
+                    UserName = email,
+                    FirstName = email,
+                    LastName = email,
+                    PasswordHash = password,
+                    TimeOfRegistration = DateTime.Now 
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, password).Result;
