@@ -73,7 +73,7 @@
                 {
                      <td>
                         <span>|</span>
-                       <a asp-action="BookingToggle" asp-route-id="@item.Id">Book</a>
+                        <a asp-action="BookingToggle" asp-route-id="@item.Id"> @Html.DisplayFor(modelItem => item.isBookedLabel) @*@Html.Label((string)ViewBag.Book)*@ </a>
                     </td>
                 }
 

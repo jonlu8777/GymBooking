@@ -28,9 +28,30 @@ namespace GymBooking.Web.Controllers
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-              return _context.GymClass != null ? 
-                          View(await _context.GymClass.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
+            if (_context.GymClass != null)
+            {
+                //var userId = _userManager.GetUserId(User);
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var gymClass= await _context.GymClass.Include(x=>x.AttendingMembers).ToListAsync();
+
+                foreach(var a in gymClass)
+                {
+
+                    if(a.AttendingMembers.Any(x=>x.ApplicationUser == user) )
+                    {
+                        a.isBookedLabel = "unbook";
+                        
+                    }
+                    else
+                        a.isBookedLabel = "book";
+
+                }
+
+                return View(gymClass);
+
+                // return View(await _context.GymClass.ToListAsync());
+            }
+            return Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
 
         //[HttpPost]
@@ -67,8 +88,6 @@ namespace GymBooking.Web.Controllers
       //  }
 
 
-
-
         [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
@@ -84,7 +103,9 @@ namespace GymBooking.Web.Controllers
 
             if (attendClass != null) //vi ska avboka om true
             {
-            TempData["success"] = "Avbokad";
+
+                ViewBag.Book = "Avbokad";
+                TempData["success"] = "Avbokad";
                 _context.ApplicationUserGymClass.Remove(attendClass);
             }
                 else
@@ -104,6 +125,7 @@ namespace GymBooking.Web.Controllers
 
                 _context.ApplicationUserGymClass.Add(booking);
 
+                ViewBag.Book = "Bokad";
                 TempData["success"] = "Bokad";
             }
                 await _context.SaveChangesAsync();

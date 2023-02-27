@@ -10,6 +10,8 @@
         public DateTime EndTime { get { return StartTime + Duration; } }
         public string Description { get; set; }
 
+        public string isBookedLabel { get; set; } = "Book";
+
         //Navigationspoperty, så aatt flera medlemmar kan delta i en GymKlass
         public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
 
