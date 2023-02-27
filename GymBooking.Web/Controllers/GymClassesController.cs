@@ -36,56 +36,18 @@ namespace GymBooking.Web.Controllers
 
                 foreach(var a in gymClass)
                 {
-
                     if(a.AttendingMembers.Any(x=>x.ApplicationUser == user) )
                     {
-                        a.isBookedLabel = "unbook";
-                        
+                        a.isBookedLabel = "unbook";    
                     }
                     else
                         a.isBookedLabel = "book";
-
                 }
-
                 return View(gymClass);
-
                 // return View(await _context.GymClass.ToListAsync());
             }
             return Problem("Entity set 'ApplicationDbContext.GymClass'  is null.");
         }
-
-        //[HttpPost]
-      //public async Task<IActionResult> RegisterUser([Bind("Id,Email,FirstName,LastName,Password")] ApplicationUser registerModel)
-      //  public async Task<IActionResult> RegisterUser(int id)
-      //public async Task<IActionResult> RegisterUser([Bind("Id,Email,FirstName,LastName,Password,ConfimPassword")] RegisterModel.InputModel registerModel)
-      //  {
-
-         
-
-
-
-
-      //      //if (ModelState.IsValid)
-      //      //{
-      //      //    registerModel.Input.TimeOfRegistration = DateTime.Now;
-
-      //      //var appUser = new ApplicationUser()
-      //      //{
-      //      //    FirstName = registerModel.Input.FirstName,
-      //      //    LastName = registerModel.Input.LastName,
-      //      //    Email = registerModel.Input.Email,
-      //      //    PasswordHash = registerModel.Input.ConfirmPassword,
-      //      //    TimeOfRegistration = DateTime.Now
-      //      //};
-      //      ////ID kan strula?! 
-
-      //      //    _context.Add(registerModel);
-      //      //    _context.ApplicationUser.Add(appUser);
-      //      //    await _context.SaveChangesAsync();
-      //      //    return RedirectToAction(nameof(Index));
-      //      //}
-      //      //return Problem("registration error");
-      //  }
 
 
         [Authorize]
@@ -104,7 +66,7 @@ namespace GymBooking.Web.Controllers
             if (attendClass != null) //vi ska avboka om true
             {
 
-                ViewBag.Book = "Avbokad";
+               
                 TempData["success"] = "Avbokad";
                 _context.ApplicationUserGymClass.Remove(attendClass);
             }
@@ -125,7 +87,6 @@ namespace GymBooking.Web.Controllers
 
                 _context.ApplicationUserGymClass.Add(booking);
 
-                ViewBag.Book = "Bokad";
                 TempData["success"] = "Bokad";
             }
                 await _context.SaveChangesAsync();
