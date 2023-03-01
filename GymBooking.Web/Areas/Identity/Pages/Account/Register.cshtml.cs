@@ -142,6 +142,10 @@ namespace GymBooking.Web.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.TimeOfRegistration = DateTime.Now;
 
+                //nytt Claim
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("FirstName", Input.FirstName ?? ""));
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("LastName", Input.LastName ?? ""));
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
