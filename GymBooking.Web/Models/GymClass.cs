@@ -14,7 +14,7 @@ namespace GymBooking.Web.Models
         public DateTime EndTime { get { return StartTime + Duration; } }
         [Required]
         public string Description { get; set; }
-
+            
         public bool isDatePassed { get; set; } = true;
 
         public string isBookedLabel { get; set; } = "Book";

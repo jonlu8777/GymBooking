@@ -37,8 +37,10 @@ namespace GymBooking.Web.Controllers
 
                 foreach(var a in gymClass)
                 {
-                  //  a.isDatePassed = true;
-                    if(a.AttendingMembers.Any(x=>x.ApplicationUser == user) )
+                    //if (a.StartTime > DateTime.Now)
+                    //    a.isDatePassed = true;
+                    //a.isDatePassed = false;
+                    if (a.AttendingMembers.Any(x=>x.ApplicationUser == user) )
                     {
                         a.isBookedLabel = "unbook";    
                     }
@@ -126,14 +128,20 @@ namespace GymBooking.Web.Controllers
             if(chkeco==true)
             foreach (var date in thisDatesThingy)
             {
-                if (date.StartTime >= DateTime.Now)
+                if (date.StartTime < DateTime.Now)
                     date.isDatePassed= true;
                 else
                     date.isDatePassed= false;
             }
             if(chkeco==false)
                 foreach(var date in thisDatesThingy)
-                { date.isDatePassed= true; }
+                {
+
+                    if (date.StartTime > DateTime.Now)
+                        date.isDatePassed = true;
+                    else
+                        date.isDatePassed = false;
+                }
 
             TempData["success"] = "isChecked";
             //return View(nameof(Index),thisDatesThingy);
